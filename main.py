@@ -8,6 +8,7 @@ from functions.os_ops import open_calculator, open_camera, open_cmd, open_notepa
 from random import choice
 from utils import opening_text
 from pprint import pprint
+from googlesearch import search
 
 
 USERNAME = config('USER')
@@ -118,7 +119,15 @@ if __name__ == '__main__':
         elif 'search on google' in query:
             speak('What do you want to search on Google, sir?')
             query = take_user_input().lower()
-            search_on_google(query)
+
+            try:
+               results = search(query, num_results=3)  # Get top 3 search results
+               speak("Here are the top results I found:")
+               for result in results:
+                   speak(result)
+            except Exception as e:
+               speak("Sorry, I couldn't fetch the search results.")
+
 
         elif "send whatsapp message" in query:
             speak(
